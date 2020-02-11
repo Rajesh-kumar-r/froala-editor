@@ -1,0 +1,12 @@
+.App {
+  font-family: sans-serif;
+}
+
+.no-border th,
+.no-border td {
+  border: none !important;
+}
+.model-otuput {
+  width: 80vw;
+  margin: auto;
+}
