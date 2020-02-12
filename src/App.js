@@ -8,54 +8,8 @@ import "froala-editor/css/froala_editor.pkgd.min.css";
 import "froala-editor/js/froala_editor.pkgd.min.js";
 import "froala-editor/js/plugins.pkgd.min.js";
 
-function registerAddButton() {
-  let showAddButtonModal = this.showAddButtonModal;
-  console.log(showAddButtonModal);
-  Froalaeditor.DefineIcon("insertButton", {
-    NAME: "plus",
-    SVG_KEY: "add"
-  });
-  Froalaeditor.RegisterCommand("insertButton", {
-    title: "Insert Button",
-    focus: true,
-    undo: true,
-    refreshAfterCallback: true,
-    callback: function() {
-      this.selection.save();
-      showAddButtonModal(this);
-    }
-  });
-}
-
-function getButtonHTML() {
-  const buttonText = "Join Now",
-    link = "https://getgist.com",
-    buttonColor = "#1e8aeb",
-    fontSize = 15,
-    horizontalPadding = 21,
-    verticalPadding = 8,
-    borderRadius = 25;
-  return `<p style="text-align:center !important;margin:20px 0 !important;"><a href="${link}" style="word-break: break-word;display:inline-block !important;background-color:${buttonColor}!important;color:#ffffff !important; font-weight:bold !important; font-size:${fontSize}px !important; text-decoration:none !important; padding:${verticalPadding}px ${horizontalPadding}px !important; border-radius:${borderRadius}px !important; -moz-border-radius:${borderRadius}px !important; -webkit-border-radius:${borderRadius}px !important; -khtml-border-radius:${borderRadius}px !important;" target="_blank">${buttonText}</a></p>`;
-}
-
 let replyEditor = "";
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      model: ""
-    };
-  }
-  onModelChange = () => {
-    this.setState({ model: replyEditor.html.get(true) });
-  };
-  showAddButtonModal = editor => {
-    editor.html.insert(getButtonHTML());
-  };
-  componentDidMount() {
-    registerAddButton.apply(this);
-  }
-  render() {
+export default function App(props) {
     return (
       <div className="App">
         <h1>Hello Froala</h1>
@@ -110,29 +64,6 @@ export default class App extends Component {
             ],
             linkList: [],
             events: {
-              blur: () => {
-                this.props.onEditorChange();
-              },
-              "image.uploaded": function(response) {
-                console.log(response);
-                // Parse response to get image url.
-                const imgLink = JSON.parse(response).data.link;
-                // Inserts image manually
-                this.image.insert(
-                  imgLink,
-                  false,
-                  null,
-                  this.image.get(),
-                  response
-                );
-                return false;
-              },
-              "image.error": (e, editor, error, response) => {
-                // TODO: Need to handle properly along with bugsnag
-                console.log(error);
-              }
-            },
-            events: {
               initialized: function() {
                 replyEditor = this;
               },
@@ -141,8 +72,7 @@ export default class App extends Component {
               }
             }
           }}
-          model={this.state.model}
-          onModelChange={this.onModelChange}
+          model={'hi'}
         />
         <button
           onClick={() => {
@@ -155,16 +85,15 @@ export default class App extends Component {
         </button>
         <div className={"model-otuput"}>
           <h2>Output code:</h2>
-          <span>{this.state.model}</span>
+          {/*<span>{this.state.model}</span>*/}
           <h2>Output</h2>
-          <span
-            dangerouslySetInnerHTML={{
-              __html: this.state.model
-            }}
-          />
+          {/*<span*/}
+          {/*  dangerouslySetInnerHTML={{*/}
+          {/*    __html: this.state.model*/}
+          {/*  }}*/}
+          {/*/>*/}
         </div>
         <h2>Start editing to see some magic happen!</h2>
       </div>
     );
   }
-}
